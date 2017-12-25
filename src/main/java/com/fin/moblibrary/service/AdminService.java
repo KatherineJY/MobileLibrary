@@ -3,6 +3,8 @@ package com.fin.moblibrary.service;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.sql.rowset.spi.SyncFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
@@ -48,11 +50,11 @@ public class AdminService {
 			if( book == null )
 				return new ResponseWrapper(false,"can not find the reserve book",null);
 			bookCrudRepository.updateIsSave(false, book.getId());
-			//璇ュ浘涔︽槸鍚﹁棰勫畾
+			//判断是否被预定
 			Reserve reserveOther = reserveCrudRepository.findByBookCategoryIdAndLibraryIdAndExpire(book.getBookCategoryId(),book.getLibraryId(),null,orderByDateAsc);
 			if( reserveOther != null ) {
 				bookCrudRepository.updateIsSave(true, book.getId());
-				// 鏇存敼棰勮鍗曠殑鐘舵��
+				//更新他人的预定状态
 				Date expire = getFiveDaysNext(curDate);
 				reserveCrudRepository.updateReserveDateAndExpire(curDate, expire, reserveOther.getAccountId(), book.getBookCategoryId());
 			}
