@@ -21,23 +21,23 @@ public interface BookRecordCrudRepository extends PagingAndSortingRepository<Boo
 	@Query("update BookRecord set returnDate = :returnDate where bookId =:bookId and borrowDate =:borrowDate")
 	public void updateReturnDate(@Param("returnDate")Date returnDate,@Param("bookId")Integer bookId,@Param("borrowDate")Date borrowDate);
 
-	@Query("SELECT ViewBookRecord(libraray,book,bookRecord))FROM "
-	        + "com.fin.moblibrary.domain.Library libraray, com.fin.moblibrary.domain.Book book, BookRecorder bookRecorder "
-	        + "WHERE bookRecorder.accountId = :accountId and bookRecorder.bookId = Book.bookId and bookRecorder.libraryId = libraray.libraryId "
+	@Query("SELECT new com.fin.moblibrary.view.ViewBookRecord(libraray,book,bookRecord) FROM "
+	        + "com.fin.moblibrary.domain.Library libraray, com.fin.moblibrary.domain.Book book, BookRecord bookRecord "
+	        + "WHERE bookRecord.accountId = :accountId and bookRecord.bookId = book.id and bookRecord.libraryId = libraray.id "
 	        + "order by bookRecord.returnDate DESC) ")
 	ViewBookRecord[] findViewBookRecordByAccountId(Integer accountId);
 	
-	@Query("SELECT ViewBookRecord(libraray,book,bookRecord))FROM "
-	        + "com.fin.moblibrary.domain.Library libraray, com.fin.moblibrary.domain.Book book, BookRecorder bookRecorder "
-	        + "WHERE bookRecorder.accountId = :accountId and bookRecorder.borrow = borrow "
-	        + "and bookRecorder.bookId = Book.bookId and bookRecorder.libraryId = libraray.libraryId "
+	@Query("SELECT new com.fin.moblibrary.view.ViewBookRecord(libraray,book,bookRecord) FROM "
+	        + "com.fin.moblibrary.domain.Library libraray, com.fin.moblibrary.domain.Book book, BookRecord bookRecord "
+	        + "WHERE bookRecord.accountId = :accountId and bookRecord.borrow = :borrow "
+	        + "and bookRecord.bookId = book.id and bookRecord.libraryId = libraray.id "
 	        + "order by bookRecord.returnDate ASC) ")
 	ViewBookRecord[] findViewBookRecordByAccountIdAndBorrow(Integer accountId,boolean borrow);
 
-	@Query("SELECT ViewHotBook(bookRecord,book,bookCategory))FROM "
-	        + "com.fin.moblibrary.domain.Book book, com.fin.moblibrary.domain.BookCategory book Category, BookRecorder bookRecorder "
-	        + "WHERE bookRecorder.bookId = Book.bookId and Book.categoryId = BookCategory.categoryId and rowNum<=10"
-	        + "group by Book.categoryId order by count(*) DESC")
+	@Query("SELECT new com.fin.moblibrary.view.ViewHotBook(bookRecord,bookCategory,book) FROM "
+	        + "com.fin.moblibrary.domain.Book book, com.fin.moblibrary.domain.BookCategory bookCategory, BookRecord bookRecord "
+	        + "WHERE bookRecord.bookId = book.id and book.bookCategoryId = bookCategory.id and rowNum<=10"
+	        + "group by book.bookCategoryId order by count(*) DESC")
 	ViewHotBook[] findViewHotBooks();
 
 	public BookRecord[] findByAccountIdAndBorrow(Integer accountId, boolean borrow);

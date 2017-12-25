@@ -1,6 +1,5 @@
 package com.fin.moblibrary.controller;
 
-import java.io.IOException;
 import java.util.Date;
 
 import org.slf4j.Logger;
@@ -8,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,7 +31,8 @@ public class AdminController {
 	private AdminService adminService;
 	
 	/**
-	 * 添加图书
+	 * addBookCategory
+	 * @param BookCategory bookCategory
 	 * */
 	@RequestMapping(value = "/addBookCategory", method = RequestMethod.POST)
 	public @ResponseBody ResponseWrapper login(@RequestBody BookCategory bookCategory ) {
@@ -43,7 +42,10 @@ public class AdminController {
 		return responseWrapper;
 	}
 	
-	@Scheduled(cron="0/0/0?????")
+	/**
+	 * handleEmpliredReserve
+	 * */
+	@Scheduled(cron="0 0 0 * * ?")
 	public void handleEmpiredReserve() {
 		logger.info(new Date().toString() + ": admin try to handleEmpiredReserve");
 		ResponseWrapper responseWrapper = adminService.handleEmpiredReserve();

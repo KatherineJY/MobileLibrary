@@ -77,7 +77,7 @@ public class SearchController {
 	}
 	
 	/**
-	 * 搜索书名
+	 * 搜索作者
 	 * @param keyWords 
 	 * 模糊匹配
 	 * */

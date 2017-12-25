@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 import com.fin.moblibrary.domain.Library;
 
 public interface LibrarayCrudRepository extends CrudRepository<Library, Integer>{
-	
-	@Query("select Library where area like CONCAT('%',:key,'%') or address like CONCAT('%',:key,'%')")
+
+	@Query(value="select * where area like CONCAT('%',:key,'%') or address like CONCAT('%',:key,'%')",nativeQuery=true)
 	public Library[] fuzzySearchByAreaAndAddress(@Param("key")String key);
 }

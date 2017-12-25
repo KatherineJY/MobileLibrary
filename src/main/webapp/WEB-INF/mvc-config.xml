@@ -19,7 +19,7 @@
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	<context:annotation-config/>
 	
-	<context:component-scan base-package="com.fin.moblibrary"/>
+	<context:component-scan base-package="com.fin.moblibrary.*"/>
 	
 	<!-- 配置任务扫描 -->
 	<task:annotation-driven/>

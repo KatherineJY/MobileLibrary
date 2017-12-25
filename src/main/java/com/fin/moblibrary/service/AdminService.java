@@ -42,17 +42,17 @@ public class AdminService {
 		calendar.setTime(curDate);
 		calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 0, 0, 0);
 		curDate = calendar.getTime();
-		Reserve[] reserves = reserveCrudRepository.findByExpire();
+		Reserve[] reserves = reserveCrudRepository.findByExpire(curDate);
 		for( Reserve reserve : reserves ) {
 			Book book = bookCrudRepository.findAllByBookCategoryIdAndLibraryIdAndSave(reserve.getBookCategoryId(),reserve.getLibraryId(),true);
 			if( book == null )
 				return new ResponseWrapper(false,"can not find the reserve book",null);
 			bookCrudRepository.updateIsSave(false, book.getId());
-			//该图书是否被预定
+			//璇ュ浘涔︽槸鍚﹁棰勫畾
 			Reserve reserveOther = reserveCrudRepository.findByBookCategoryIdAndLibraryIdAndExpire(book.getBookCategoryId(),book.getLibraryId(),null,orderByDateAsc);
 			if( reserveOther != null ) {
 				bookCrudRepository.updateIsSave(true, book.getId());
-				// 更改预订单的状态
+				// 鏇存敼棰勮鍗曠殑鐘舵��
 				Date expire = getFiveDaysNext(curDate);
 				reserveCrudRepository.updateReserveDateAndExpire(curDate, expire, reserveOther.getAccountId(), book.getBookCategoryId());
 			}

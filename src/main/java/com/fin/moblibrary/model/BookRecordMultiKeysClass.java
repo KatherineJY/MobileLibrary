@@ -14,14 +14,14 @@ public class BookRecordMultiKeysClass implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Date borrowDate;
-	private Integer book_id;
+	private Integer bookId;
 
 	public BookRecordMultiKeysClass() {
 	}
 
-	public BookRecordMultiKeysClass(Date borrowDate, Integer book_id) {
+	public BookRecordMultiKeysClass(Date borrowDate, Integer bookId) {
 		this.borrowDate = borrowDate;
-		this.book_id = book_id;
+		this.bookId = bookId;
 	}
 
 	public Date getBorrowDate() {
@@ -32,12 +32,12 @@ public class BookRecordMultiKeysClass implements Serializable {
 		this.borrowDate = borrowDate;
 	}
 
-	public Integer getBook_id() {
-		return book_id;
+	public Integer getBookId() {
+		return bookId;
 	}
 
-	public void setBook_id(Integer book_id) {
-		this.book_id = book_id;
+	public void setBookId(Integer bookId) {
+		this.bookId = bookId;
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class BookRecordMultiKeysClass implements Serializable {
 		final int PRIME = 31;
 		int result = 1;
 		result = PRIME * result + ((borrowDate == null) ? 0 : borrowDate.hashCode());
-		result = PRIME * result + ((book_id == null) ? 0 : book_id.hashCode());
+		result = PRIME * result + ((bookId == null) ? 0 : bookId.hashCode());
 		return result;
 	}
 
@@ -69,11 +69,11 @@ public class BookRecordMultiKeysClass implements Serializable {
 		} else if (!borrowDate.equals(other.borrowDate)) {
 			return false;
 		}
-		if (book_id == null) {
-			if (other.book_id != null) {
+		if (bookId == null) {
+			if (other.bookId != null) {
 				return false;
 			}
-		} else if (!book_id.equals(other.book_id)) {
+		} else if (!bookId.equals(other.bookId)) {
 			return false;
 		}
 		return true;

@@ -16,12 +16,12 @@ import com.fin.moblibrary.view.ViewReserveBook;
 public interface ReserveCrudRepository extends CrudRepository<Reserve, ReserveMultiKeysClass>,PagingAndSortingRepository<Reserve, ReserveMultiKeysClass>{
 
 	@Modifying
-	@Query("update Reserve set reserveDate = :reserveDate, expire =:expire and where accountId = :accountId and bookCategoryId = :bookCategoryId")
+	@Query("update Reserve set reserveDate = :reserveDate, expire =:expire where accountId = :accountId and bookCategoryId = :bookCategoryId")
 	public void updateReserveDateAndExpire(@Param("reserveDate")Date reserveDate,@Param("expire")Date expire,@Param("accountId")Integer accountId,@Param("bookCategoryId")Integer bookCategoryId);
 
-	@Query("SELECT ViewReserveRecord(reserveBook,bookCategory))FROM "
-	        + "com.fin.moblibrary.domain.BookCategory bookCategory, ReserveBook reserveBook "
-	        + "WHERE reserveBook.accountId = :accountId and bookCategory.bookCategoryId = reserveBook.bookCategoryId ")
+	@Query("SELECT new com.fin.moblibrary.view.ViewReserveBook(reserve,bookCategory) FROM "
+	        + "com.fin.moblibrary.domain.BookCategory bookCategory, Reserve reserve "
+	        + "WHERE reserve.accountId = :accountId and bookCategory.id = reserve.bookCategoryId ")
 	ViewReserveBook[] findViewReserveBookByAccountId(Integer accountId);
 
 	public Reserve findByAccountIdAndBookCategoryId(Integer accountId, Integer bookCategoryId);
@@ -29,7 +29,7 @@ public interface ReserveCrudRepository extends CrudRepository<Reserve, ReserveMu
 	public Reserve findByAccountIdAndBookCategoryIdAndLibraryId(Integer accountId, Integer bookCategoryId,
 			Integer libraryId);
 
-	public Reserve[] findByExpire();
+	public Reserve[] findByExpire(Date date);
 
 	public Reserve findByBookCategoryIdAndLibraryIdAndExpire(Integer bookCategoryId, Integer newLibraryId,
 			Date expire,Order order);

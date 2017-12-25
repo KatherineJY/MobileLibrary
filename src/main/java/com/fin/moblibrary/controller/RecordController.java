@@ -46,7 +46,7 @@ public class RecordController {
 	 * @param accoutId
 	 *  
 	 */
-	@RequestMapping(value="/showPayRecord/{accoutId}",method =RequestMethod.POST)
+	@RequestMapping(value="/showBookRecord/{accoutId}",method =RequestMethod.POST)
 	public @ResponseBody ResponseWrapper showBookRecorder(@PathVariable("accoutId")Integer accoutId,@PathVariable("page") Integer page) {
 		logger.info(new Date().toString() + ": " + accoutId + "try to show book record ");
 		ResponseWrapper responseWrapper = recordService.showBookRecord(accoutId);
@@ -58,7 +58,7 @@ public class RecordController {
 	 * 查看未归还的图书
 	 * @param accountId
 	 * */
-	@RequestMapping(value="/showPayRecord/{accountId}",method =RequestMethod.POST)
+	@RequestMapping(value="/showBookBorrow/{accountId}",method =RequestMethod.POST)
 	public @ResponseBody ResponseWrapper showBookBorrow(@PathVariable("accountId")Integer accountId) {
 		logger.info(new Date().toString() + ": " + accountId + "try to show book borrow ");
 		ResponseWrapper responseWrapper = recordService.showBookBorrow(accountId);

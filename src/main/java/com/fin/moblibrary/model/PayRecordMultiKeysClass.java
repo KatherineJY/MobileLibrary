@@ -12,24 +12,24 @@ public class PayRecordMultiKeysClass implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer account_id;
+	private Integer accountId;
 	private Date date;
 
 	public PayRecordMultiKeysClass() {
 
 	}
 
-	public PayRecordMultiKeysClass(Integer account_id, Date date) {
-		this.account_id = account_id;
+	public PayRecordMultiKeysClass(Integer accountId, Date date) {
+		this.accountId = accountId;
 		this.date = date;
 	}
 
-	public Integer getAccount_id() {
-		return account_id;
+	public Integer getAccountId() {
+		return accountId;
 	}
 
-	public void setAccount_id(Integer account_id) {
-		this.account_id = account_id;
+	public void setAccountId(Integer accountId) {
+		this.accountId = accountId;
 	}
 
 	public Date getDate() {
@@ -44,7 +44,7 @@ public class PayRecordMultiKeysClass implements Serializable {
 	public int hashCode() {
 		final int PRIME = 31;
 		int result = 1;
-		result = PRIME * result + ((account_id == null) ? 0 : account_id.hashCode());
+		result = PRIME * result + ((accountId == null) ? 0 : accountId.hashCode());
 		result = PRIME * result + ((date == null) ? 0 : date.hashCode());
 		return result;
 	}
@@ -62,11 +62,11 @@ public class PayRecordMultiKeysClass implements Serializable {
 		}
 
 		final PayRecordMultiKeysClass other = (PayRecordMultiKeysClass) obj;
-		if (account_id == null) {
-			if (other.account_id != null) {
+		if (accountId == null) {
+			if (other.accountId != null) {
 				return false;
 			}
-		} else if (!account_id.equals(other.account_id)) {
+		} else if (!accountId.equals(other.accountId)) {
 			return false;
 		}
 		if (date == null) {

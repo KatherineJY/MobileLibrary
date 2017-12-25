@@ -30,7 +30,7 @@ public class BookController {
 	private BookService bookService;
 	
 	/**
-	 * 还书
+	 * returnBook
 	 * @param accountId
 	 * @param bookId
 	 * @param libraryId;
@@ -44,7 +44,7 @@ public class BookController {
 	}
 	
 	/**
-	 * 借书
+	 * borrowBook
 	 * @param bookId
 	 * @param accountId
 	 * */
@@ -57,7 +57,7 @@ public class BookController {
 	}
 	
 	/**
-	 * 显示特定的一本书的所有书的信息
+	 * showDetailBook
 	 * @param bookCategoryId
 	 * */
 	@RequestMapping(value = "/showDetailBook/{bookCategoryId}")

@@ -7,6 +7,15 @@ public class ViewReserveBook {
 	private Reserve reserve;
 	private BookCategory bookCategory;
 	
+	public ViewReserveBook() {
+		
+	}
+	
+	public ViewReserveBook(Reserve reserve,BookCategory bookCategory) {
+		this.reserve = reserve;
+		this.bookCategory = bookCategory;
+	}
+	
 	public Reserve getReserve() {
 		return reserve;
 	}

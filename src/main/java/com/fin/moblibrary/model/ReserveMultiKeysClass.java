@@ -13,55 +13,52 @@ public class ReserveMultiKeysClass implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	private Integer account_id;
-	private Integer book_category_id;
-	private Integer library_id;
+	private Integer accountId;
+	private Integer bookCategoryId;
+	private Integer libraryId;
 	
 	public ReserveMultiKeysClass() {
 		
 	}
 	
-	public ReserveMultiKeysClass(Integer account_id, Integer book_category_id, Integer library_id) {
-		this.account_id = account_id;
-		this.book_category_id = book_category_id;
-		this.library_id = library_id;
+	public ReserveMultiKeysClass(Integer accountId, Integer bookCategoryId, Integer libraryId) {
+		this.accountId = accountId;
+		this.bookCategoryId = bookCategoryId;
+		this.libraryId = libraryId;
 	}
 
-	public Integer getAccount_id() {
-		return account_id;
+	public Integer getAccountId() {
+		return accountId;
 	}
 
-	public void setAccount_id(Integer account_id) {
-		this.account_id = account_id;
+	public void setAccountId(Integer accountId) {
+		this.accountId = accountId;
 	}
 
-	public Integer getBook_category_id() {
-		return book_category_id;
+	public Integer getBookCategoryId() {
+		return bookCategoryId;
 	}
 
-	public void setBook_category_id(Integer book_category_id) {
-		this.book_category_id = book_category_id;
+	public void setBookCategoryId(Integer bookCategoryId) {
+		this.bookCategoryId = bookCategoryId;
 	}
 
-	public Integer getLibrary_id() {
-		return library_id;
+	public Integer getLibraryId() {
+		return libraryId;
 	}
 
-	public void setLibrary_id(Integer library_id) {
-		this.library_id = library_id;
+	public void setLibraryId(Integer libraryId) {
+		this.libraryId = libraryId;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-	
+
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;
 		int result = 1;
-		result = PRIME * result + ((account_id == null) ? 0 : account_id.hashCode());
-		result = PRIME * result + ((book_category_id == null) ? 0 : book_category_id.hashCode());
-		result = PRIME * result + ((library_id == null) ? 0 : library_id.hashCode());
+		result = PRIME * result + ((accountId == null) ? 0 : accountId.hashCode());
+		result = PRIME * result + ((bookCategoryId == null) ? 0 : bookCategoryId.hashCode());
+		result = PRIME * result + ((libraryId == null) ? 0 : libraryId.hashCode());
 		return result;
 	}
 
@@ -78,25 +75,25 @@ public class ReserveMultiKeysClass implements Serializable{
 		}
 
 		final ReserveMultiKeysClass other = (ReserveMultiKeysClass) obj;
-		if (account_id == null) {
-			if (other.account_id != null) {
+		if (accountId == null) {
+			if (other.accountId != null) {
 				return false;
 			}
-		} else if (!account_id.equals(other.account_id)) {
+		} else if (!accountId.equals(other.accountId)) {
 			return false;
 		}
-		if (book_category_id == null) {
-			if (other.book_category_id != null) {
+		if (bookCategoryId == null) {
+			if (other.bookCategoryId != null) {
 				return false;
 			}
-		} else if (!book_category_id.equals(other.book_category_id)) {
+		} else if (!bookCategoryId.equals(other.bookCategoryId)) {
 			return false;
 		}
-		if (library_id == null) {
-			if (other.library_id != null) {
+		if (libraryId == null) {
+			if (other.libraryId != null) {
 				return false;
 			}
-		} else if (!library_id.equals(other.library_id)) {
+		} else if (!libraryId.equals(other.libraryId)) {
 			return false;
 		}
 		return true;

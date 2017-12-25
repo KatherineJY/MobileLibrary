@@ -108,6 +108,6 @@
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 	
 	<!--配置spring data  -->
-	<jpa:repositories base-package="com.fin.moblibrary" entity-manager-factory-ref="entityManagerFactory"/>
+	<jpa:repositories base-package="com.fin.moblibrary.repository" entity-manager-factory-ref="entityManagerFactory"/>
 
 </beans>

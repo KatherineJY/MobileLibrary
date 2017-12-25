@@ -16,7 +16,7 @@ public class Book {
 	private Integer bookCategoryId;
 	private Integer libraryId;
 	private boolean borrow;
-	private boolean reserve;
+	private boolean save;
 	
 	@Id
 	@GeneratedValue
@@ -47,12 +47,13 @@ public class Book {
 	public void setBorrow(boolean borrow) {
 		this.borrow = borrow;
 	}
+	public boolean isSave() {
+		return save;
+	}
+	public void setSave(boolean save) {
+		this.save = save;
+	}
 	
-	public boolean isReserve() {
-		return reserve;
-	}
-	public void setReserve(boolean reserve) {
-		this.reserve = reserve;
-	}
+
 	
 }

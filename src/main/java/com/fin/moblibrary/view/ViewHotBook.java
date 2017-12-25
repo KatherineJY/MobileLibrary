@@ -9,6 +9,16 @@ public class ViewHotBook {
 	private BookCategory bookCategory;
 	private Book book;
 	
+	public ViewHotBook() {
+		
+	}
+	
+	public ViewHotBook(BookRecord bookRecord,BookCategory bookCategory,Book book) {
+		this.bookRecord = bookRecord;
+		this.book = book;
+		this.bookCategory = bookCategory;
+	}
+	
 	public BookRecord getBookRecord() {
 		return bookRecord;
 	}

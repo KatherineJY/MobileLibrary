@@ -1,7 +1,5 @@
 package com.fin.moblibrary.view;
 
-import java.sql.Date;
-
 import com.fin.moblibrary.domain.Book;
 import com.fin.moblibrary.domain.BookRecord;
 import com.fin.moblibrary.domain.Library;
@@ -15,6 +13,16 @@ public class ViewBookRecord {
 	private Library library;
 	private Book book;
 	private BookRecord bookRecord;
+	
+	public ViewBookRecord() {
+		
+	}
+	
+	public ViewBookRecord(Library library,Book book,BookRecord bookRecord) {
+		this.book = book;
+		this.bookRecord = bookRecord;
+		this.library = library;
+	}
 	
 	public Library getLibrary() {
 		return library;
