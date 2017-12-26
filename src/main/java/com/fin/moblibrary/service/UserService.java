@@ -78,6 +78,7 @@ public class UserService {
 		account.setBalance(0.0);
 		account.setDeposit(false);
 		accountCrudRepository.save(account);
+		account.setPassword("");
 		return new ResponseWrapper(true,"",account);
 	}
 	
