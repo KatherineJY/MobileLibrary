@@ -7,4 +7,6 @@ import com.fin.moblibrary.model.ReviewMultiKeysClass;
 
 public interface ReviewCrudRepository extends CrudRepository<Review, ReviewMultiKeysClass>{
 
+	Review[] findByBookCategoryId(Integer bookCategoryId);
+
 }

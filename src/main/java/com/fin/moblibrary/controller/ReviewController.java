@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,9 +36,32 @@ public class ReviewController {
 	 * */
 	@RequestMapping(value="/addReview",method = RequestMethod.POST)
 	public @ResponseBody ResponseWrapper showResereveBook(@RequestBody Review review)  {
-		logger.info(new Date().toString() + ": " + review.getAccountId() + "try to show reserve book ");
+		logger.info(new Date().toString() + ": " + review.getAccountId() + "try to add review ");
 		ResponseWrapper responseWrapper = reviewService.addReview(review);
-		logger.info(new Date().toString() + ": "+ "show reserve book "+ responseWrapper.toString());
+		logger.info(new Date().toString() + ": "+ "add review "+ responseWrapper.toString());
+		return responseWrapper;
+	}
+	
+	/**
+	 * 查看关于某本书的全部书评
+	 * @param bookCategoryId
+	 * */
+	@RequestMapping(value="/showReviews/{bookCategoryId}",method = RequestMethod.POST)
+	public @ResponseBody ResponseWrapper showReviews(@PathVariable("bookCategoryId") Integer bookCategoryId)  {
+		logger.info(new Date().toString() + ": " + "try to show review ");
+		ResponseWrapper responseWrapper = reviewService.showReviews(bookCategoryId);
+		logger.info(new Date().toString() + ": "+ "show reviews"+ responseWrapper.toString());
+		return responseWrapper;
+	}
+	
+	/**
+	 * 查看某人是否评论过某本书
+	 * */
+	@RequestMapping(value="/isReviewedBefore/{accountId}/{bookCategoryId}",method = RequestMethod.POST)
+	public @ResponseBody ResponseWrapper isReviewedBefore(@PathVariable("accoutId") Integer accountId,@PathVariable("bookCategoryId") Integer bookCategoryId)  {
+		logger.info(new Date().toString() + ": " + "is "+ accountId +" has reviewd "+bookCategoryId + " before.");
+		ResponseWrapper responseWrapper = reviewService.isReviewedBefore(accountId,bookCategoryId);
+		logger.info(new Date().toString() + ": "+ "is reviewed?"+ responseWrapper.toString());
 		return responseWrapper;
 	}
 }
