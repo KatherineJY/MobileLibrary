@@ -56,6 +56,8 @@ public class ReviewController {
 	
 	/**
 	 * 查看某人是否评论过某本书
+	 * @param accountId
+	 * @param bookCategoryId
 	 * */
 	@RequestMapping(value="/isReviewedBefore/{accountId}/{bookCategoryId}",method = RequestMethod.POST)
 	public @ResponseBody ResponseWrapper isReviewedBefore(@PathVariable("accoutId") Integer accountId,@PathVariable("bookCategoryId") Integer bookCategoryId)  {
@@ -64,4 +66,6 @@ public class ReviewController {
 		logger.info(new Date().toString() + ": "+ "is reviewed?"+ responseWrapper.toString());
 		return responseWrapper;
 	}
+	
+	
 }
