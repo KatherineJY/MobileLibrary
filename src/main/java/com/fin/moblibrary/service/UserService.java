@@ -39,6 +39,7 @@ public class UserService {
 	 * 登录
 	 * @param phone
 	 * @param pwd
+	 * @return 返回account对象
 	 * */
 	@Transactional
 	public ResponseWrapper login(String phone, String pwd) throws IOException {
@@ -49,12 +50,14 @@ public class UserService {
 			return new ResponseWrapper(false, "account isn't exist", null);
 		if (!decoderPwd(account.getPassword()).equals(pwd)) // 验证前对密码进行解密
 			return new ResponseWrapper(false, "wrong pwd", null);
-		return new ResponseWrapper(true, "", null);
+		account.setPassword("");
+		return new ResponseWrapper(true, "", account);
 	}
 	
 	/**
 	 * 注册
 	 * @param account
+	 * @return 返回account对象
 	 * */
 	@Transactional
 	public ResponseWrapper register(Account account) {
@@ -75,7 +78,7 @@ public class UserService {
 		account.setBalance(0.0);
 		account.setDeposit(false);
 		accountCrudRepository.save(account);
-		return new ResponseWrapper(true,"",null);
+		return new ResponseWrapper(true,"",account);
 	}
 	
 	/**
@@ -109,6 +112,7 @@ public class UserService {
 	 * 充值
 	 * @param accoutId
 	 * @param amount
+	 * @return 返回余额
 	 * */
 	@Transactional
 	public ResponseWrapper recharge(Integer accoutId, double amount) {
@@ -125,7 +129,7 @@ public class UserService {
 		String detail = "recharge "+ amount +" yuan. Balance is " + account.getBalance() + " yuan.";
 		payRecord = new PayRecord(accoutId, true, amount, account.getBalance(), new Date(), detail);
 		payRecordCrudRepository.save(payRecord);
-		return new ResponseWrapper(true,"",null);
+		return new ResponseWrapper(true,"",account.getBalance());
 	}
 	
 	/**

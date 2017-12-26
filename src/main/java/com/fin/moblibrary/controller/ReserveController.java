@@ -37,7 +37,7 @@ public class ReserveController {
 		logger.info(new Date().toString() + ": " + accountId + "try to show reserve book ");
 		ResponseWrapper responseWrapper = reserveService.showResereveBook(accountId);
 		logger.info(new Date().toString() + ": "+ "show reserve book "+ responseWrapper.toString());
-		return new ResponseWrapper();
+		return responseWrapper;
 	}
 	
 	/**
@@ -51,7 +51,7 @@ public class ReserveController {
 		logger.info(new Date().toString() + ": " + accountId + "try to show reserve book "+bookCategoryId);
 		ResponseWrapper responseWrapper = reserveService.reserveBook(accountId,bookCategoryId,libraryId);
 		logger.info(new Date().toString() + ": "+ "reserve book "+ responseWrapper.toString());
-		return new ResponseWrapper();
+		return responseWrapper;
 	}
 	
 	/**
@@ -64,6 +64,6 @@ public class ReserveController {
 		logger.info(new Date().toString() + ": " + accountId + "try to cancel reserve book "+bookCategoryId);
 		ResponseWrapper responseWrapper = reserveService.cancelReserve(accountId,bookCategoryId);
 		logger.info(new Date().toString() + ": "+ "cancel reserve book "+ responseWrapper.toString());
-		return new ResponseWrapper();
+		return responseWrapper;
 	}
 }

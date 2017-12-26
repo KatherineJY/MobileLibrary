@@ -38,7 +38,7 @@ public class RecordController {
 		logger.info(new Date().toString() + ": " + accountId + "try to show pay record ");
 		ResponseWrapper responseWrapper = recordService.showPayRecord(accountId);
 		logger.info(new Date().toString() + ": "+ "show pay record "+ responseWrapper.toString());
-		return new ResponseWrapper();
+		return responseWrapper;
 	}
 	
 	/**
@@ -51,7 +51,7 @@ public class RecordController {
 		logger.info(new Date().toString() + ": " + accoutId + "try to show book record ");
 		ResponseWrapper responseWrapper = recordService.showBookRecord(accoutId);
 		logger.info(new Date().toString() + ": "+ "show book record " + responseWrapper.toString());
-		return new ResponseWrapper();
+		return responseWrapper;
 	}
 	
 	/**
@@ -63,7 +63,7 @@ public class RecordController {
 		logger.info(new Date().toString() + ": " + accountId + "try to show book borrow ");
 		ResponseWrapper responseWrapper = recordService.showBookBorrow(accountId);
 		logger.info(new Date().toString() + ": "+ "show book borrow "+ responseWrapper.toString());
-		return new ResponseWrapper();
+		return responseWrapper;
 	}
 	
 	/**
@@ -74,6 +74,6 @@ public class RecordController {
 		logger.info(new Date().toString() + ": " + "try to show hot book ");
 		ResponseWrapper responseWrapper = recordService.showHotBook();
 		logger.info(new Date().toString() + ": "+ "show hot book "+ responseWrapper.toString());
-		return new ResponseWrapper();
+		return responseWrapper;
 	}
 }
