@@ -56,7 +56,7 @@ public class UserController {
 		logger.info(new Date().toString() + ": " + account.getPhone() + "try to register");
 		ResponseWrapper responseWrapper = userService.register(account);
 		logger.info(new Date().toString() + ": "+ "register " + responseWrapper.toString());
-		return new ResponseWrapper();
+		return responseWrapper;
 	}
 	
 	/**
@@ -69,7 +69,7 @@ public class UserController {
 		logger.info(new Date().toString() + ": " + accoutId + "try to deposit "+ is_deposit);
 		ResponseWrapper responseWrapper = userService.deposit(accoutId,is_deposit);
 		logger.info(new Date().toString() + ": "+ "deposit "+ is_deposit + " " + responseWrapper.toString());
-		return new ResponseWrapper();
+		return responseWrapper;
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class UserController {
 		logger.info(new Date().toString() + ": " + accoutId + "try to recharge "+ amount);
 		ResponseWrapper responseWrapper = userService.recharge(accoutId,amount);
 		logger.info(new Date().toString() + ": "+ "recharge "+ amount + " " + responseWrapper.toString());
-		return new ResponseWrapper();
+		return responseWrapper;
 	}
 	
 	/**

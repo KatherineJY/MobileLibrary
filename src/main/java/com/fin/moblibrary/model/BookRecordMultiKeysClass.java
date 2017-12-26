@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * @author KatherineJY 
  * BookRecord的复合主键类
- * @Param account_id
+ * @Param bookId
  * @Param borrowDate
  */
 public class BookRecordMultiKeysClass implements Serializable {
