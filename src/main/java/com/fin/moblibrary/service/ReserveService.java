@@ -1,7 +1,8 @@
 package com.fin.moblibrary.service;
 
 
-import java.util.Date;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,7 +45,7 @@ public class ReserveService {
 	 * @param bookCategoryId
 	 * @param libraryId
 	 * */
-	public ResponseWrapper reserveBook(Integer accountId, Integer bookCategoryId,Integer libraryId) {
+	public synchronized ResponseWrapper reserveBook(Integer accountId, Integer bookCategoryId,Integer libraryId) {
 		Account account = accountCrudRepository.findOne(accountId);
 		if( account == null )
 			return new ResponseWrapper(false, "account isn't exist", null);
@@ -54,9 +55,12 @@ public class ReserveService {
 			return new ResponseWrapper(false, "library isn't exist",null);
 		Reserve reserve = reserveCrudRepository.findByAccountIdAndBookCategoryId(accountId,bookCategoryId);
 		//如果这个用户预定过这本书，且这本书尚在预定等待中，或是在可借阅状态，则预定失败
-		if( reserve!=null && ( reserve.getExpire()==null || reserve.getExpire().after(new Date()) ) )
+		if( reserve!=null && ( reserve.getExpire()==null || reserve.getExpire().after(new java.util.Date()) ) )
 			return new ResponseWrapper(false, "you have ordered the book and your reservation is still validate",null);
-		Reserve  reserveNew = new Reserve(accountId, bookCategoryId, libraryId, new Date(), null);
+
+		java.util.Date datePre = new java.util.Date();
+		Timestamp timestamp = new Timestamp(datePre.getTime());
+		Reserve  reserveNew = new Reserve(accountId, bookCategoryId, libraryId, timestamp, null);
 		reserveCrudRepository.save(reserveNew);
 		return new ResponseWrapper(true,"",null);
 	}
@@ -66,7 +70,7 @@ public class ReserveService {
 	 * @param accountId
 	 * @param bookCategoryId
 	 * */
-	public ResponseWrapper cancelReserve(Integer accountId, Integer bookCategoryId) {
+	public synchronized ResponseWrapper cancelReserve(Integer accountId, Integer bookCategoryId) {
 		if( accountCrudRepository.findOne(accountId) == null )
 			return new ResponseWrapper(false, "account isn't exist", null);
 		if( bookCategoryCrudRepository.findOne(bookCategoryId) == null )

@@ -1,5 +1,7 @@
 package com.fin.moblibrary.model;
 
+import org.json.JSONObject;
+
 /**
  * @author KatherineJY
  * ResponseWrapper
@@ -45,7 +47,10 @@ public class ResponseWrapper {
 	@Override
 	public String toString() {
 		if( isSuccessful )
-			return "isSuccesful:" + isSuccessful + "\t returnBody:" + body.toString();
+			if(body!=null)
+				return "isSuccesful:" + isSuccessful + "\t returnBody:" + new JSONObject(body).toString();
+			else
+				return "isSuccesful:"+isSuccessful + "\t returnBody:null";
 		else
 			return "isSuccesful:" + isSuccessful + "\t errorMsg:" + errorMessage;
 	}

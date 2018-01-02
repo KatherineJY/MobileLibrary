@@ -1,8 +1,13 @@
 package com.fin.moblibrary.service;
 
 import java.io.IOException;
-import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Random;
+
+import javax.print.attribute.standard.DateTimeAtCompleted;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,7 +47,7 @@ public class UserService {
 	 * @return 返回account对象
 	 * */
 	@Transactional
-	public ResponseWrapper login(String phone, String pwd) throws IOException {
+	public synchronized ResponseWrapper login(String phone, String pwd) throws IOException {
 		if( phone == null || phone.length() == 0)
 			return new ResponseWrapper(false,"account isn't exist",null);
 		Account account = accountCrudRepository.findByPhone(phone);
@@ -50,9 +55,9 @@ public class UserService {
 			return new ResponseWrapper(false, "account isn't exist", null);
 		if (!decoderPwd(account.getPassword()).equals(pwd)) // 验证前对密码进行解密
 			return new ResponseWrapper(false, "wrong pwd", null);
-		account.setPassword("");
 		return new ResponseWrapper(true, "", account);
 	}
+
 	
 	/**
 	 * 注册
@@ -60,7 +65,7 @@ public class UserService {
 	 * @return 返回account对象
 	 * */
 	@Transactional
-	public ResponseWrapper register(Account account) {
+	public synchronized ResponseWrapper register(Account account) {
 		//手机号是否为空
 		if ( account.getPhone() == null || account.getPhone().length() == 0 )
 			return new ResponseWrapper(false,"the phone missing",null);
@@ -78,9 +83,9 @@ public class UserService {
 		account.setBalance(0.0);
 		account.setDeposit(false);
 		accountCrudRepository.save(account);
-		account.setPassword("");
 		return new ResponseWrapper(true,"",account);
 	}
+
 	
 	/**
 	 * 缴纳/退还押金
@@ -88,7 +93,7 @@ public class UserService {
 	 * @param is_deposit
 	 * */
 	@Transactional
-	public ResponseWrapper deposit(Integer accoutId, boolean is_deposit) {
+	public synchronized ResponseWrapper deposit(Integer accoutId, boolean is_deposit) {
 		Account account = accountCrudRepository.findOne(accoutId);
 		if( account == null )
 			return new ResponseWrapper(false, "account isn't exist", null);
@@ -97,13 +102,15 @@ public class UserService {
 		accountCrudRepository.updateDeposit(is_deposit, accoutId);
 		//更新流水记录
 		PayRecord payRecord;
-		if( is_deposit ) {
+		java.util.Date datePre = new java.util.Date();
+		Timestamp timestamp = new Timestamp(datePre.getTime());
+		if( account.isDeposit() ) {
 			String detail = "deposit and it costs "+ depositMoney +" yuan.";
-			payRecord = new PayRecord(accoutId, true, depositMoney, account.getBalance(), new Date(), detail);
+			payRecord = new PayRecord(accoutId, true, depositMoney, account.getBalance(), timestamp, detail);
 		}
 		else {
 			String detail = "return deposit "+ depositMoney +" yuan.";
-			payRecord = new PayRecord(accoutId, false, depositMoney, account.getBalance(), new Date(), detail);
+			payRecord = new PayRecord(accoutId, false, depositMoney, account.getBalance(),timestamp, detail);
 		}
 		payRecordCrudRepository.save(payRecord);
 		return new ResponseWrapper(true,"",null);
@@ -116,7 +123,7 @@ public class UserService {
 	 * @return 返回余额
 	 * */
 	@Transactional
-	public ResponseWrapper recharge(Integer accoutId, double amount) {
+	public synchronized ResponseWrapper recharge(Integer accoutId, double amount) {
 		if( amount < 0 )
 			return new ResponseWrapper(false,"amount can't be a negative ",null);
 		Account account = accountCrudRepository.findOne(accoutId);
@@ -127,8 +134,10 @@ public class UserService {
 		accountCrudRepository.updateBalance(account.getBalance()+amount,accoutId);
 		//更新流水记录
 		PayRecord payRecord;
+		java.util.Date datePre = new java.util.Date();
+		Timestamp timestamp = new Timestamp(datePre.getTime());
 		String detail = "recharge "+ amount +" yuan. Balance is " + account.getBalance() + " yuan.";
-		payRecord = new PayRecord(accoutId, true, amount, account.getBalance(), new Date(), detail);
+		payRecord = new PayRecord(accoutId, true, amount, account.getBalance(), timestamp, detail);
 		payRecordCrudRepository.save(payRecord);
 		return new ResponseWrapper(true,"",account.getBalance());
 	}
@@ -139,7 +148,7 @@ public class UserService {
 	 * @param newPwd
 	 * */
 	@Transactional
-	public ResponseWrapper resetPwd(Integer accoutId, String newPwd) {
+	public synchronized ResponseWrapper resetPwd(Integer accoutId, String newPwd) {
 		if( accountCrudRepository.findOne(accoutId) == null )
 			return new ResponseWrapper(false,"account isn't exist",null);
 		accountCrudRepository.updatePwd(newPwd, accoutId);
@@ -152,7 +161,7 @@ public class UserService {
 	 * @param newPhone
 	 * */
 	@Transactional
-	public ResponseWrapper resetPhone(Integer accoutId, String newPhone) {
+	public synchronized ResponseWrapper resetPhone(Integer accoutId, String newPhone) {
 		//判断电话号码是否存在
 		if( accountCrudRepository.findOne(accoutId) == null )
 			return new ResponseWrapper(false,"account isn't exist",null);
@@ -166,7 +175,7 @@ public class UserService {
 	 * @throws ServerException
 	 * @throws ClientException
 	 * */
-	public ResponseWrapper getRandomCode(String phone) throws ServerException, ClientException {
+	public synchronized ResponseWrapper getRandomCode(String phone) throws ServerException, ClientException {
 		final String product = "Dysmsapi";
 		// 产品域名,开发者无需替换
 		final String domain = "dysmsapi.aliyuncs.com";

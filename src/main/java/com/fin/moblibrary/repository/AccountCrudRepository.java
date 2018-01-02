@@ -12,18 +12,18 @@ public interface AccountCrudRepository extends CrudRepository<Account, Integer>{
 	public Account findByPhone(String phone);
 	
 	@Modifying
-	@Query("update Account set password = :password where accoutId =:accoutId")
-	void updatePwd(@Param("password")String password,@Param("accoutId")Integer accoutId);
+	@Query("update Account set password = :password where id =:id")
+	void updatePwd(@Param("password")String password,@Param("id")Integer id);
 	
 	@Modifying
-	@Query("update Account set phone = :newphone where accoutId =:accoutId")
-	void updatePhone(@Param("newphone")String newphone,@Param("accoutId")Integer accoutId);
+	@Query("update Account set phone = :newphone where id =:id")
+	void updatePhone(@Param("newphone")String newphone,@Param("id")Integer id);
 	
 	@Modifying
-	@Query("update Account set deposit = :deposit where accountId =:accoutId")
-	void updateDeposit(@Param("deposit")boolean deposit,@Param("accoutId")Integer accoutId);
-	
+	@Query("update Account set deposit = :deposit where id =:id")
+	void updateDeposit(@Param("deposit")boolean deposit,@Param("id")Integer id);
+	 
 	@Modifying
-	@Query("update Account set balance = :balance where accoutId =:accoutId")
-	void updateBalance(@Param("balance")double balance,@Param("accoutId")Integer accoutId);
+	@Query("update Account set balance = :balance where id =:id")
+	void updateBalance(@Param("balance")double balance,@Param("id")Integer id);
 }

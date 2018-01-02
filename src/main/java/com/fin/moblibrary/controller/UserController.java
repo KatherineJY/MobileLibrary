@@ -26,7 +26,7 @@ import com.fin.moblibrary.service.UserService;
  */
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
 
 	private static Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -91,7 +91,7 @@ public class UserController {
 	 * @param newPwd
 	 * */
 	@RequestMapping(value = "/ResetPwd/{accoutId}/{newPwd}", method = RequestMethod.POST)
-	public @ResponseBody ResponseWrapper ResetPwd(@PathVariable("phone") Integer accoutId, @PathVariable("newPwd") String newPwd) {
+	public @ResponseBody ResponseWrapper ResetPwd(@PathVariable("accountId") Integer accoutId, @PathVariable("newPwd") String newPwd) {
 		logger.info(new Date().toString() + ": " + accoutId + "try to change pwd");
 		ResponseWrapper responseWrapper = userService.resetPwd(accoutId,newPwd);
 		logger.info(new Date().toString() + ": "+ "change pwd " + responseWrapper.toString());

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fin.moblibrary.domain.Reserve;
 import com.fin.moblibrary.domain.Review;
 import com.fin.moblibrary.model.ResponseWrapper;
 import com.fin.moblibrary.service.ReviewService;
@@ -23,7 +22,7 @@ import com.fin.moblibrary.service.ReviewService;
  */
 
 @Controller
-@RequestMapping("/review")
+@RequestMapping("/api/review")
 public class ReviewController {
 	
 	private static Logger logger = LoggerFactory.getLogger(ReviewController.class);
@@ -37,9 +36,9 @@ public class ReviewController {
 	 * */
 	@RequestMapping(value="/addReview",method = RequestMethod.POST)
 	public @ResponseBody ResponseWrapper showResereveBook(@RequestBody Review review)  {
-		logger.info(new Date().toString() + ": " + review.getAccountId() + "try to add review ");
+		logger.info(new Date().toString() + ": " + review.getAccountId() + "try to show reserve book ");
 		ResponseWrapper responseWrapper = reviewService.addReview(review);
-		logger.info(new Date().toString() + ": "+ "add review "+ responseWrapper.toString());
+		logger.info(new Date().toString() + ": "+ "show reserve book "+ responseWrapper.toString());
 		return responseWrapper;
 	}
 	
@@ -47,7 +46,7 @@ public class ReviewController {
 	 * 查看关于某本书的全部书评
 	 * @param bookCategoryId
 	 * */
-	@RequestMapping(value="/showReviews/{bookCategoryId}",method = RequestMethod.POST)
+	@RequestMapping(value="/showReviews/{bookCategoryId}")
 	public @ResponseBody ResponseWrapper showReviews(@PathVariable("bookCategoryId") Integer bookCategoryId)  {
 		logger.info(new Date().toString() + ": " + "try to show review ");
 		ResponseWrapper responseWrapper = reviewService.showReviews(bookCategoryId);
@@ -80,4 +79,5 @@ public class ReviewController {
 		logger.info(new Date().toString() + ": "+ "change review"+ responseWrapper.toString());
 		return responseWrapper;
 	}
+
 }

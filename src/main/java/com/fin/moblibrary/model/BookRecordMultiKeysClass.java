@@ -1,7 +1,8 @@
 package com.fin.moblibrary.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * @author KatherineJY 
@@ -13,23 +14,23 @@ public class BookRecordMultiKeysClass implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Date borrowDate;
+	private Timestamp borrowTimestamp;
 	private Integer bookId;
 
 	public BookRecordMultiKeysClass() {
 	}
 
-	public BookRecordMultiKeysClass(Date borrowDate, Integer bookId) {
-		this.borrowDate = borrowDate;
+	public BookRecordMultiKeysClass(Timestamp borrowTimestamp, Integer bookId) {
+		this.borrowTimestamp = borrowTimestamp;
 		this.bookId = bookId;
 	}
 
-	public Date getBorrowDate() {
-		return borrowDate;
+	public Timestamp getBorrowTimestamp() {
+		return borrowTimestamp;
 	}
 
-	public void setBorrowDate(Date borrowDate) {
-		this.borrowDate = borrowDate;
+	public void setBorrowTimestamp(Timestamp borrowTimestamp) {
+		this.borrowTimestamp = borrowTimestamp;
 	}
 
 	public Integer getBookId() {
@@ -44,7 +45,7 @@ public class BookRecordMultiKeysClass implements Serializable {
 	public int hashCode() {
 		final int PRIME = 31;
 		int result = 1;
-		result = PRIME * result + ((borrowDate == null) ? 0 : borrowDate.hashCode());
+		result = PRIME * result + ((borrowTimestamp == null) ? 0 : borrowTimestamp.hashCode());
 		result = PRIME * result + ((bookId == null) ? 0 : bookId.hashCode());
 		return result;
 	}
@@ -62,11 +63,11 @@ public class BookRecordMultiKeysClass implements Serializable {
 		}
 
 		final BookRecordMultiKeysClass other = (BookRecordMultiKeysClass) obj;
-		if (borrowDate == null) {
-			if (other.borrowDate != null) {
+		if (borrowTimestamp == null) {
+			if (other.borrowTimestamp != null) {
 				return false;
 			}
-		} else if (!borrowDate.equals(other.borrowDate)) {
+		} else if (!borrowTimestamp.equals(other.borrowTimestamp)) {
 			return false;
 		}
 		if (bookId == null) {

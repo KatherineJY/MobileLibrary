@@ -1,4 +1,5 @@
-package com.fin.moblibrary;
+package com.fin.moblibrary.service;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.Before;
@@ -7,19 +8,24 @@ import org.junit.runner.RunWith;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.springframework.stereotype.Repository;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import com.fin.moblibrary.repository.BookCategoryCrudRepository;
+import com.fin.moblibrary.service.UserService;
 
-public class SpringDataTest {
-	
+
+public class BookServiceTest {
+
 	private ApplicationContext ctx = null;
+	private BookService bookservice;
 	
 	@Before
 	public void setup(){
 	
-		//ctx = new ClassPathXmlApplicationContext("classpath:webapp\\WEB-INF\\spring\\application-config.xml");
 		ctx = new FileSystemXmlApplicationContext("F:\\tools\\sts-bundle\\workspace-sts-3.8.0.RELEASE\\MobileLibrary\\src\\main\\webapp\\WEB-INF\\spring\\application-config.xml");
+		bookservice = ctx.getBean(BookService.class);
 		System.out.println("setup");
 	}
 	
@@ -30,7 +36,13 @@ public class SpringDataTest {
 	}
 	
 	@Test
-	public void testEntityManagerFactory(){
+	public void testBookService(){
+
+		bookservice.borrowBook(1, 1);
+		
+		bookservice.returnBook(1, 1, 1);
+		
+		bookservice.showDetailBook(1).toString();
 		
 	}
 }

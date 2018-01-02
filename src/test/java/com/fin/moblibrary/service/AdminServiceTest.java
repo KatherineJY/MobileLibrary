@@ -1,4 +1,5 @@
-package com.fin.moblibrary;
+package com.fin.moblibrary.service;
+
 
 import org.junit.After;
 import org.junit.Before;
@@ -6,20 +7,20 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+@WebAppConfiguration
+@ContextConfiguration
 
-public class SpringDataTest {
+public class AdminServiceTest {
 	
 	private ApplicationContext ctx = null;
 	
 	@Before
 	public void setup(){
 	
-		//ctx = new ClassPathXmlApplicationContext("classpath:webapp\\WEB-INF\\spring\\application-config.xml");
-		ctx = new FileSystemXmlApplicationContext("F:\\tools\\sts-bundle\\workspace-sts-3.8.0.RELEASE\\MobileLibrary\\src\\main\\webapp\\WEB-INF\\spring\\application-config.xml");
+		ctx = new ClassPathXmlApplicationContext("application-config.xml");
 		System.out.println("setup");
 	}
 	
@@ -30,7 +31,8 @@ public class SpringDataTest {
 	}
 	
 	@Test
-	public void testEntityManagerFactory(){
+	public void testAdminService(){
+		
 		
 	}
 }

@@ -2,6 +2,7 @@ package com.fin.moblibrary.model;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * @author KatherineJY PayRecord的复合主键类
@@ -13,15 +14,15 @@ public class PayRecordMultiKeysClass implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer accountId;
-	private Date date;
+	private Timestamp timestamp;
 
 	public PayRecordMultiKeysClass() {
 
 	}
 
-	public PayRecordMultiKeysClass(Integer accountId, Date date) {
+	public PayRecordMultiKeysClass(Integer accountId, Timestamp timestamp) {
 		this.accountId = accountId;
-		this.date = date;
+		this.timestamp = timestamp;
 	}
 
 	public Integer getAccountId() {
@@ -32,12 +33,12 @@ public class PayRecordMultiKeysClass implements Serializable {
 		this.accountId = accountId;
 	}
 
-	public Date getDate() {
-		return date;
+	public Timestamp getTimestamp() {
+		return timestamp;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setTimestamp(Timestamp timestamp) {
+		this.timestamp = timestamp;
 	}
 
 	@Override
@@ -45,7 +46,7 @@ public class PayRecordMultiKeysClass implements Serializable {
 		final int PRIME = 31;
 		int result = 1;
 		result = PRIME * result + ((accountId == null) ? 0 : accountId.hashCode());
-		result = PRIME * result + ((date == null) ? 0 : date.hashCode());
+		result = PRIME * result + ((timestamp == null) ? 0 : timestamp.hashCode());
 		return result;
 	}
 
@@ -69,11 +70,11 @@ public class PayRecordMultiKeysClass implements Serializable {
 		} else if (!accountId.equals(other.accountId)) {
 			return false;
 		}
-		if (date == null) {
-			if (other.date != null) {
+		if (timestamp == null) {
+			if (other.timestamp != null) {
 				return false;
 			}
-		} else if (!date.equals(other.date)) {
+		} else if (!timestamp.equals(other.timestamp)) {
 			return false;
 		}
 		return true;

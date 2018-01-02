@@ -1,25 +1,23 @@
-package com.fin.moblibrary;
+package com.fin.moblibrary.service;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.web.WebAppConfiguration;
 
+import com.fin.moblibrary.domain.Review;
 
-public class SpringDataTest {
-	
+public class ReviewServiceTest {
+
 	private ApplicationContext ctx = null;
+	private ReviewService reviewservice;
 	
 	@Before
 	public void setup(){
 	
-		//ctx = new ClassPathXmlApplicationContext("classpath:webapp\\WEB-INF\\spring\\application-config.xml");
 		ctx = new FileSystemXmlApplicationContext("F:\\tools\\sts-bundle\\workspace-sts-3.8.0.RELEASE\\MobileLibrary\\src\\main\\webapp\\WEB-INF\\spring\\application-config.xml");
+		reviewservice = ctx.getBean(ReviewService.class);
 		System.out.println("setup");
 	}
 	
@@ -30,7 +28,11 @@ public class SpringDataTest {
 	}
 	
 	@Test
-	public void testEntityManagerFactory(){
-		
+	public void testBookService(){
+		Review review = new Review();
+		review.setAccountId(1);
+		review.setBookCategoryId(3);
+		review.setContent("现实魔幻主义书籍");
+		reviewservice.addReview(review);
 	}
 }

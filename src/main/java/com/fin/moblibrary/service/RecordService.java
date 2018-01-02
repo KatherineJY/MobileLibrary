@@ -51,8 +51,9 @@ public class RecordService {
 	public ResponseWrapper showBookRecord(Integer accountId) {
 		if( accountCrudRepository.findOne(accountId) == null )
 			return new ResponseWrapper(false,"account isn't exist",null);
-		ViewBookRecord[] bookRecords = bookRecordCrudRepository.findViewBookRecordByAccountId(accountId);
-		return new ResponseWrapper(true,"",bookRecords);
+		//ViewBookRecord[] bookRecords = bookRecordCrudRepository.findViewBookRecordByAccountId(accountId);
+		//return new ResponseWrapper(true,"",bookRecords);
+		return null;
 	}
 	
 	/**
@@ -63,15 +64,17 @@ public class RecordService {
 	public ResponseWrapper showBookBorrow(Integer accountId) {
 		if( accountCrudRepository.findOne(accountId) == null )
 			return new ResponseWrapper(false, "account isn't exist", null);
-		return new ResponseWrapper(true,"",bookRecordCrudRepository.findViewBookRecordByAccountIdAndBorrow(accountId, true));
+		//return new ResponseWrapper(true,"",bookRecordCrudRepository.findViewBookRecordByAccountIdAndBorrow(accountId, true));
+		return null;
 	}
 
 	/**
 	 * 展示热门图书
 	 * */
 	public ResponseWrapper showHotBook() {
-		ViewHotBook[] viewHotBooks = bookRecordCrudRepository.findViewHotBooks();
-		return new ResponseWrapper(true,"",viewHotBooks);
+		//ViewHotBook[] viewHotBooks = bookRecordCrudRepository.findViewHotBooks();
+		//return new ResponseWrapper(true,"",viewHotBooks);
+		return null;
 	}
 	
 

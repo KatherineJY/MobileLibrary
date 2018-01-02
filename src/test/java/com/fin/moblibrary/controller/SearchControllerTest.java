@@ -1,25 +1,24 @@
-package com.fin.moblibrary;
+package com.fin.moblibrary.controller;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.web.WebAppConfiguration;
 
+import javassist.compiler.ast.Keyword;
 
-public class SpringDataTest {
-	
+public class SearchControllerTest {
+
 	private ApplicationContext ctx = null;
+	private SearchController searchController;
+	
 	
 	@Before
 	public void setup(){
 	
-		//ctx = new ClassPathXmlApplicationContext("classpath:webapp\\WEB-INF\\spring\\application-config.xml");
 		ctx = new FileSystemXmlApplicationContext("F:\\tools\\sts-bundle\\workspace-sts-3.8.0.RELEASE\\MobileLibrary\\src\\main\\webapp\\WEB-INF\\spring\\application-config.xml");
+		searchController = ctx.getBean(SearchController.class);
 		System.out.println("setup");
 	}
 	
@@ -30,7 +29,19 @@ public class SpringDataTest {
 	}
 	
 	@Test
-	public void testEntityManagerFactory(){
+	public void testreserveController(){
 		
+		searchController.searchBookAll("ÄªÑÔ");
+	}
+	public void testsearchAuthor(){
+		searchController.searchAuthor("ÄªÑÔ");
+	}
+	
+	public void testsearchBookName(){
+		searchController.searchBookName("ÍÜ");
+	}
+	
+	public void testsearchLibrary(){
+		searchController.searchLibraray("Îäºî");
 	}
 }

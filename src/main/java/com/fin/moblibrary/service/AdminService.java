@@ -1,7 +1,7 @@
 package com.fin.moblibrary.service;
 
 import java.util.Calendar;
-import java.util.Date;
+import java.sql.Date;
 
 import javax.sql.rowset.spi.SyncFactory;
 
@@ -38,25 +38,25 @@ public class AdminService {
 		return new ResponseWrapper(true,"",null);
 	}
 
-	public ResponseWrapper handleEmpiredReserve() {
-		Date curDate = new Date();
+	public synchronized ResponseWrapper handleEmpiredReserve() {
+		java.util.Date curDate = new java.util.Date();
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(curDate);
 		calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 0, 0, 0);
-		curDate = calendar.getTime();
-		Reserve[] reserves = reserveCrudRepository.findByExpire(curDate);
+		Date date = new Date(calendar.getTime().getTime());
+		Reserve[] reserves = reserveCrudRepository.findByExpire(date);
 		for( Reserve reserve : reserves ) {
 			Book book = bookCrudRepository.findAllByBookCategoryIdAndLibraryIdAndSave(reserve.getBookCategoryId(),reserve.getLibraryId(),true);
 			if( book == null )
 				return new ResponseWrapper(false,"can not find the reserve book",null);
 			bookCrudRepository.updateIsSave(false, book.getId());
 			//判断是否被预定
-			Reserve reserveOther = reserveCrudRepository.findByBookCategoryIdAndLibraryIdAndExpire(book.getBookCategoryId(),book.getLibraryId(),null,orderByDateAsc);
+			Reserve reserveOther = reserveCrudRepository.findByBookCategoryIdAndLibraryIdAndExpireOrderByReserveTimestamp(book.getBookCategoryId(),book.getLibraryId(),null);
 			if( reserveOther != null ) {
 				bookCrudRepository.updateIsSave(true, book.getId());
 				//更新他人的预定状态
-				Date expire = getFiveDaysNext(curDate);
-				reserveCrudRepository.updateReserveDateAndExpire(curDate, expire, reserveOther.getAccountId(), book.getBookCategoryId());
+				Date expire = getFiveDaysNext(date);
+				reserveCrudRepository.updateReserveDateAndExpire(date, expire, reserveOther.getAccountId(), book.getBookCategoryId());
 			}
 		}
 		return null;
@@ -66,7 +66,8 @@ public class AdminService {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(curDate);
 		calendar.add(Calendar.DATE, 5);
-		return calendar.getTime();
+		Date date = new Date(calendar.getTime().getTime());
+		return date;
 	}
 
 }

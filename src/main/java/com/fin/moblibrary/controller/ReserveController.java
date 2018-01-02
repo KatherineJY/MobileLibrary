@@ -20,7 +20,7 @@ import com.fin.moblibrary.service.ReserveService;
  */
 
 @Controller
-@RequestMapping("/reserve")
+@RequestMapping("/api/reserve")
 public class ReserveController {
 	
 	private static Logger logger = LoggerFactory.getLogger(ReserveController.class);

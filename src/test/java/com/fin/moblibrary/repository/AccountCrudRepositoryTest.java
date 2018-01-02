@@ -1,4 +1,6 @@
-package com.fin.moblibrary;
+package com.fin.moblibrary.repository;
+
+import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.Before;
@@ -10,15 +12,22 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import com.fin.moblibrary.domain.Account;
+import com.fin.moblibrary.repository.AccountCrudRepository;
+import com.fin.moblibrary.service.UserService;
 
-public class SpringDataTest {
+@WebAppConfiguration
+@ContextConfiguration
+
+public class AccountCrudRepositoryTest {
 	
+
 	private ApplicationContext ctx = null;
+	private AccountCrudRepository accountCrudRepository;
 	
 	@Before
 	public void setup(){
 	
-		//ctx = new ClassPathXmlApplicationContext("classpath:webapp\\WEB-INF\\spring\\application-config.xml");
 		ctx = new FileSystemXmlApplicationContext("F:\\tools\\sts-bundle\\workspace-sts-3.8.0.RELEASE\\MobileLibrary\\src\\main\\webapp\\WEB-INF\\spring\\application-config.xml");
 		System.out.println("setup");
 	}
@@ -30,7 +39,10 @@ public class SpringDataTest {
 	}
 	
 	@Test
-	public void testEntityManagerFactory(){
+	public void testfindByPhone(){
+		this.accountCrudRepository.findByPhone("123445566778");
+		System.out.println();
+		
 		
 	}
 }

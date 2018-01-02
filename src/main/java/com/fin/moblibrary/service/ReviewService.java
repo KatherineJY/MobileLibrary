@@ -24,17 +24,16 @@ public class ReviewService {
 	/**
 	 * 添加书评
 	 * */
-	public ResponseWrapper addReview(Review review) {
+	public synchronized ResponseWrapper addReview(Review review) {
 		if( review.getAccountId()==null || accountCrudRepository.findOne(review.getAccountId()) == null )
 			return new ResponseWrapper(false,"account isn't exist",null);
 		if( review.getBookCategoryId()==null || bookCategoryCrudRepository.findOne( review.getBookCategoryId() )==null )
-			return new ResponseWrapper(false,"the book isn't exist",null);
+			return new ResponseWrapper(false,"wrong bookCategoryId",null);
 		if( review.getContent()==null || review.getContent().length()==0 )
 			return new ResponseWrapper(false,"empty content",null);
 		reviewCrudRepository.save(review);
 		return new ResponseWrapper(true,"",null);
 	}
-
 	/**
 	 * 查看关于某本书的书评
 	 * @param bookCategoryId
@@ -68,7 +67,7 @@ public class ReviewService {
 	 * @param review
 	 * */
 	@Transactional
-	public ResponseWrapper changeReview(Review review) {
+	public synchronized ResponseWrapper changeReview(Review review) {
 		if( review.getAccountId()==null || accountCrudRepository.findOne(review.getAccountId()) == null )
 			return new ResponseWrapper(false,"account isn't exist",null);
 		if( review.getBookCategoryId()==null || bookCategoryCrudRepository.findOne( review.getBookCategoryId() )==null )
@@ -80,6 +79,5 @@ public class ReviewService {
 		reviewCrudRepository.updateContentByAccountIdAndBookCategoryId(review.getContent(),review.getAccountId(),review.getBookCategoryId());
 		return new ResponseWrapper(true,"",null);
 	}
-	
 	
 }

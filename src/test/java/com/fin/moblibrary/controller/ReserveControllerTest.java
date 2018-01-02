@@ -1,25 +1,26 @@
-package com.fin.moblibrary;
+package com.fin.moblibrary.controller;
+
+import javax.print.DocFlavor.READER;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.web.WebAppConfiguration;
 
+import com.fin.moblibrary.service.BookService;
 
-public class SpringDataTest {
-	
+public class ReserveControllerTest {
+
 	private ApplicationContext ctx = null;
+	private ReserveController reserveController;
+	
 	
 	@Before
 	public void setup(){
 	
-		//ctx = new ClassPathXmlApplicationContext("classpath:webapp\\WEB-INF\\spring\\application-config.xml");
 		ctx = new FileSystemXmlApplicationContext("F:\\tools\\sts-bundle\\workspace-sts-3.8.0.RELEASE\\MobileLibrary\\src\\main\\webapp\\WEB-INF\\spring\\application-config.xml");
+		reserveController = ctx.getBean(ReserveController.class);
 		System.out.println("setup");
 	}
 	
@@ -30,7 +31,15 @@ public class SpringDataTest {
 	}
 	
 	@Test
-	public void testEntityManagerFactory(){
-		
+	public void testreserveController(){
+		reserveController.reserveBook(1, 3, 1);
+	}
+	
+	public void testshowReserveBook(){
+		reserveController.showResereveBook(1);
+	}
+	
+	public void testcancelReserve(){
+		reserveController.cancelReserve(1, 3);
 	}
 }

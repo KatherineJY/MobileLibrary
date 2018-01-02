@@ -20,7 +20,7 @@ import com.fin.moblibrary.service.RecordService;
  */
 
 @Controller
-@RequestMapping("/record")
+@RequestMapping("/api/record")
 public class RecordController {
 	
 	private static Logger logger = LoggerFactory.getLogger(RecordController.class);

@@ -1,6 +1,8 @@
 package com.fin.moblibrary.domain;
 
-import java.util.Date;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,19 +23,20 @@ public class PayRecord {
 	private boolean save;
 	private double amount;
 	private double balance;
-	private Date date;
+	private Timestamp timestamp;
+
 	private String detail;
 	
 	public PayRecord() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public PayRecord(Integer accountId,Boolean save,double amount,double balance,Date date,String detail) {
+	public PayRecord(Integer accountId,boolean save,double amount,double balance,Timestamp timestamp,String detail) {
 		this.accountId = accountId;
 		this.balance = balance;
 		this.save = save;
 		this.amount = amount;
-		this.date = date;
+		this.timestamp = timestamp;
 		this.detail = detail;
 	}
 	
@@ -70,15 +73,15 @@ public class PayRecord {
 	}
 	
 	@Id
-	@Column( nullable = false )
-	public Date getDate() {
-		return date;
+	@Column( nullable = false, name="payDate" )
+	public Timestamp getTimestamp() {
+		return timestamp;
 	}
-	public void setDate(Date date) {
-		this.date = date;
+	public void setTimestamp(Timestamp timestamp) {
+		this.timestamp = timestamp;
 	}
 	
-	@Column( length = 20, nullable = false )
+	@Column( length = 40, nullable = false )
 	public String getDetail() {
 		return detail;
 	}

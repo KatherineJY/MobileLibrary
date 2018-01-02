@@ -1,6 +1,7 @@
 package com.fin.moblibrary.repository;
 
-import java.util.Date;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.repository.Modifying;
@@ -31,7 +32,9 @@ public interface ReserveCrudRepository extends CrudRepository<Reserve, ReserveMu
 
 	public Reserve[] findByExpire(Date date);
 
-	public Reserve findByBookCategoryIdAndLibraryIdAndExpire(Integer bookCategoryId, Integer newLibraryId,
-			Date expire,Order order);
+
+	public Reserve findByBookCategoryIdAndLibraryIdAndExpireOrderByReserveTimestamp(Integer bookCategoryId,
+			Integer libraryId, Timestamp expire);
+
 
 }

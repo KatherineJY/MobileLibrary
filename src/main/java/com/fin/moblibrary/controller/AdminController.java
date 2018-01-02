@@ -22,7 +22,7 @@ import com.fin.moblibrary.service.AdminService;
  */
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/api/admin")
 public class AdminController {
 
 	private static Logger logger = LoggerFactory.getLogger(AdminController.class);

@@ -1,25 +1,22 @@
-package com.fin.moblibrary;
+package com.fin.moblibrary.controller;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.web.WebAppConfiguration;
 
+public class ViewControllerTest {
 
-public class SpringDataTest {
-	
 	private ApplicationContext ctx = null;
+	private ViewController viewController;
+	
 	
 	@Before
 	public void setup(){
 	
-		//ctx = new ClassPathXmlApplicationContext("classpath:webapp\\WEB-INF\\spring\\application-config.xml");
 		ctx = new FileSystemXmlApplicationContext("F:\\tools\\sts-bundle\\workspace-sts-3.8.0.RELEASE\\MobileLibrary\\src\\main\\webapp\\WEB-INF\\spring\\application-config.xml");
+		viewController = ctx.getBean(ViewController.class);
 		System.out.println("setup");
 	}
 	
@@ -30,7 +27,11 @@ public class SpringDataTest {
 	}
 	
 	@Test
-	public void testEntityManagerFactory(){
+	public void testreserveController(){
+		
+		viewController.viewHome();
+		
+		viewController.viewHome2();
 		
 	}
 }

@@ -21,7 +21,7 @@ import com.fin.moblibrary.service.BookService;
  */
 
 @Controller
-@RequestMapping("/book")
+@RequestMapping("/api/book")
 public class BookController {
 	
 	private static Logger logger = LoggerFactory.getLogger(BookController.class);

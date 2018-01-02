@@ -1,7 +1,8 @@
 package com.fin.moblibrary.domain;
 
 
-import java.util.Date;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,18 +22,18 @@ public class Reserve {
 	private Integer accountId;
 	private Integer bookCategoryId;
 	private Integer libraryId;
-	private Date reserveDate;
+	private Timestamp reserveTimestamp;
 	private Date expire;
 	
 	public Reserve() {
 		
 	}
 	
-	public Reserve(Integer accountId,Integer bookCategoryId,Integer libraryId,Date date,Date expire) {
+	public Reserve(Integer accountId,Integer bookCategoryId,Integer libraryId,Timestamp reserveTimestamp,Date expire) {
 		this.accountId = accountId;
 		this.bookCategoryId = bookCategoryId;
 		this.libraryId = libraryId;
-		this.reserveDate = date;
+		this.reserveTimestamp= reserveTimestamp;
 		this.expire = expire;
 	}
 	
@@ -61,11 +62,11 @@ public class Reserve {
 	}
 	
 	@Column( nullable = false )
-	public Date getReserveDate() {
-		return reserveDate;
+	public Timestamp getReserveTimestamp() {
+		return reserveTimestamp;
 	}
-	public void setReserveDate(Date reserveDate) {
-		this.reserveDate = reserveDate;
+	public void setReserveTimestamp(Timestamp reserveTimestamp) {
+		this.reserveTimestamp = reserveTimestamp;
 	}
 	
 	@Column( nullable = false )

@@ -1,7 +1,9 @@
 package com.fin.moblibrary.domain;
 
 
-import java.util.Date;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -21,20 +23,20 @@ public class BookRecord {
 	private Integer bookId;
 	private Integer libraryId;
 	private boolean borrow;
-	private Date borrowDate;
-	private Date returnDate;
+	private Timestamp borrowTimestamp;
+	private Timestamp returnTimestamp;
 	
 	public BookRecord() {
 		
 	}
 	
-	public BookRecord(Integer accountId,Integer bookId,Integer libraryId,boolean borrow,Date borrowDate,Date returnDate) {
+	public BookRecord(Integer accountId,Integer bookId,Integer libraryId,boolean borrow,Timestamp borrowTimestamp,Timestamp returnTimestamp) {
 		this.accountId = accountId;
 		this.bookId = bookId;
 		this.libraryId = libraryId;
 		this.borrow = borrow;
-		this.borrowDate = borrowDate;
-		this.returnDate = returnDate;
+		this.borrowTimestamp = borrowTimestamp;
+		this.returnTimestamp = returnTimestamp;
 	}
 	
 	public Integer getAccountId() {
@@ -67,18 +69,18 @@ public class BookRecord {
 	}
 	
 	@Id
-	public Date getBorrowDate() {
-		return borrowDate;
+	public Timestamp getBorrowTimestamp() {
+		return borrowTimestamp;
 	}
-	public void setBorrowDate(Date borrowDate) {
-		this.borrowDate = borrowDate;
+	public void setBorrowTimestamp(Timestamp borrowTimestamp) {
+		this.borrowTimestamp = borrowTimestamp;
 	}
 	
-	public Date getReturnDate() {
-		return returnDate;
+	public Timestamp getReturnTimestamp() {
+		return returnTimestamp;
 	}
-	public void setReturnDate(Date returnDate) {
-		this.returnDate = returnDate;
+	public void setReturnTimestamp(Timestamp returnTimestamp) {
+		this.returnTimestamp = returnTimestamp;
 	}
 	
 }

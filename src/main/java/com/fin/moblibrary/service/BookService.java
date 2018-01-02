@@ -1,7 +1,8 @@
 package com.fin.moblibrary.service;
 
 import java.util.Calendar;
-import java.util.Date;
+import java.sql.Date;
+import java.sql.Timestamp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
@@ -21,6 +22,7 @@ import com.fin.moblibrary.repository.BookCrudRepository;
 import com.fin.moblibrary.repository.BookRecordCrudRepository;
 import com.fin.moblibrary.repository.PayRecordCrudRepository;
 import com.fin.moblibrary.repository.ReserveCrudRepository;
+import com.fin.moblibrary.view.ViewBookInfo;
 
 /**
  * @author KatherineJY 处理与书籍相关的事件
@@ -54,9 +56,9 @@ public class BookService {
 		BookCategory bookCategory = bookCategoryCrudRepository.findOne(bookCategoryId);
 		if( bookCategory == null )
 			return new ResponseWrapper(false,"the book isn't exist",null);
-		Book[] books = bookCrudRepository.findAllByBookCategoryIdAndBorrow(bookCategoryId,false);
-		Object[] objs = {bookCategory,books};
-		return new ResponseWrapper(true,"",objs);
+		//ViewBookInfo[] viewBookInfos = bookCrudRepository.findAllViewBookInfoByBookCategoryIdAndBorrow(bookCategoryId,false);
+		//return new ResponseWrapper(true,"",viewBookInfos);
+		return null;
 	}
 	
 	/**
@@ -66,28 +68,33 @@ public class BookService {
 	 * @param newLibraryId
 	 * */
 	@Transactional
-	public ResponseWrapper returnBook(Integer accountId,Integer bookId,Integer newLibraryId) {
+	public synchronized ResponseWrapper returnBook(Integer accountId,Integer bookId,Integer newLibraryId) {
 		Account account = accountCrudRepository.findOne(accountId);
 		if( account == null )
 			return new ResponseWrapper(false, "account isn't exist", null);
 		Book book = bookCrudRepository.findOne(bookId);
+		System.out.println("*********************1*****************");
+
 		if( book == null )
 			return new ResponseWrapper(false,"book isn't exist",null);
-		BookRecord bookRecord = bookRecordCrudRepository.findByBookId(bookId, orderByDateDesc);
+		BookRecord bookRecord = bookRecordCrudRepository.findByBookIdOrderByBorrowTimestampDesc(bookId);
+		System.out.println("**********************2****************");
 		if( bookRecord == null )
 			return new ResponseWrapper(false,"hadn't borrowed the book",null);
 		//更新借还书记录 填写还书日期
-		Date curDate = new Date();
+		java.util.Date curDate_java = new java.util.Date();
 		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(curDate);
+		calendar.setTime(curDate_java);
 		calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 0, 0, 0);
-		curDate = calendar.getTime();
-		bookRecordCrudRepository.updateReturnDate(curDate,bookId,bookRecord.getBorrowDate());
+		curDate_java = calendar.getTime();
+		Date curDate = new Date(curDate_java.getTime());
+		Timestamp curtimestamp = new Timestamp(curDate.getTime());
+		bookRecordCrudRepository.updateReturnTimestamp(curtimestamp,bookId,bookRecord.getBorrowTimestamp());
 		//更新图书的位置以及借还书状态
 		bookCrudRepository.updatePosition(newLibraryId,bookId);
 		bookCrudRepository.updateIsBorrow(false, bookId);
 		//该图书是否被预定
-		Reserve reserve = reserveCrudRepository.findByBookCategoryIdAndLibraryIdAndExpire(book.getBookCategoryId(),newLibraryId,null,orderByDateAsc);
+		Reserve reserve = reserveCrudRepository.findByBookCategoryIdAndLibraryIdAndExpireOrderByReserveTimestamp(book.getBookCategoryId(),newLibraryId,null);
 		if( reserve != null ) {
 			bookCrudRepository.updateIsSave(true, bookId);
 			// 更改预订单的状态
@@ -96,7 +103,8 @@ public class BookService {
 		}
 		
 		//扣费
-		int borrowDays = daysBetween(curDate, bookRecord.getBorrowDate());
+		Date borrowDate = new Date( bookRecord.getBorrowTimestamp().getTime());
+		int borrowDays = daysBetween(curDate,borrowDate);
 		double amount = countMoney(borrowDays);
 		double balance = account.getBalance() - amount;
 		accountCrudRepository.updateBalance( balance, accountId);
@@ -104,7 +112,8 @@ public class BookService {
 		String detail = "Return book " + bookCategoryCrudRepository.findOne(book.getBookCategoryId()).getName() 
 				+ ". This book has been borrowed for " + borrowDays 
 				+ "days. It costs "+amount +" yuan. Balance is "+ balance+" yuan.";
-		PayRecord payRecord = new PayRecord(accountId, false, amount, balance, curDate, detail);
+		Timestamp curTimestamp = new Timestamp(curDate.getTime());
+		PayRecord payRecord = new PayRecord(accountId, false, amount, balance, curTimestamp, detail);
 		payRecordCrudRepository.save(payRecord);
 		return new ResponseWrapper(true,"",balance);
 	}
@@ -115,7 +124,7 @@ public class BookService {
 	 * @param accountId
 	 * */
 	@Transactional
-	public ResponseWrapper borrowBook(Integer accountId, Integer bookId) {
+	public synchronized ResponseWrapper borrowBook(Integer accountId, Integer bookId) {
 		Account account = accountCrudRepository.findOne(accountId);
 		if( account == null )
 			return new ResponseWrapper(false, "account isn't exist", null);
@@ -130,9 +139,11 @@ public class BookService {
 		if( bookRecords.length >= 3 )
 			return new ResponseWrapper(false,"you have borrow three books",null);
 		//判断是否有逾期的书籍
-		Date curDate = new Date();
+		java.util.Date curDate = new java.util.Date();
+		Date date = new Date(curDate.getTime());
 		for( BookRecord bookRecord : bookRecords ) {
-			int days = daysBetween(bookRecord.getBorrowDate(), curDate);
+			Date borrowdate = new Date(bookRecord.getBorrowTimestamp().getTime());
+			int days = daysBetween(borrowdate, date);
 			if( days > 30 )
 				return new ResponseWrapper(false,"you should return the book which you haved borrowed for more than 30 days first",null);
 		}
@@ -144,7 +155,8 @@ public class BookService {
 		//借阅图书
 		bookCrudRepository.updateIsBorrow(true, bookId);
 		//增加借还书记录
-		BookRecord bookRecordNew = new BookRecord(accountId, bookId, book.getLibraryId(), true, curDate, null);
+		Timestamp timestamp = new Timestamp(date.getTime());
+		BookRecord bookRecordNew = new BookRecord(accountId, bookId, book.getLibraryId(), true, timestamp, null);
 		bookRecordCrudRepository.save(bookRecordNew);
 		//判读是否需要更新预定表
 		Reserve reserve = reserveCrudRepository.findByAccountIdAndBookCategoryId(accountId, book.getBookCategoryId());
@@ -157,7 +169,8 @@ public class BookService {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(curDate);
 		calendar.add(Calendar.DATE, 5);
-		return calendar.getTime();
+		Date date = new Date(calendar.getTime().getTime());
+		return date;
 	}
 
 	private int daysBetween(Date one, Date two) {

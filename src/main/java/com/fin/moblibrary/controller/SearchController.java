@@ -22,7 +22,7 @@ import com.fin.moblibrary.repository.LibrarayCrudRepository;
  */
 
 @Controller
-@RequestMapping("/search")
+@RequestMapping("/api/search")
 public class SearchController {
 	
 	private static Logger logger = LoggerFactory.getLogger(SearchController.class);
@@ -41,10 +41,11 @@ public class SearchController {
 	@RequestMapping(value = "/all/{keyWords}")
 	public @ResponseBody ResponseWrapper searchBookAll(@PathVariable("keyWords") String keyWords){
 		logger.info(new Date().toString() + ": " + " try to search all with keyWords "+ keyWords);
-		BookCategory[] bookCategories = bookCategoryCrudRepository.fuzzySearchByAuthor(keyWords);
-		BookCategory[] bookCategories2 = bookCategoryCrudRepository.fuzzySearchByName(keyWords);
-		Library[] libraries = librarayCrudRepository.fuzzySearchByAreaAndAddress(keyWords);
-		Object[] objs = {bookCategories, bookCategories2, libraries};
+		BookCategory[] bookCategories = bookCategoryCrudRepository.findByAuthorLike(keyWords);
+		BookCategory[] bookCategories2 = bookCategoryCrudRepository.findByNameLike(keyWords);
+		Library[] libraries = librarayCrudRepository.findByAreaLike(keyWords);
+		Library[] libraries2 = librarayCrudRepository.findByAddressLike(keyWords);
+		Object[] objs = {bookCategories, bookCategories2, libraries,libraries2};
 		ResponseWrapper responseWrapper = new ResponseWrapper(true,"",objs);
 		logger.info(new Date().toString() + ": " + "search all with keyWords "+ keyWords +" return "+ responseWrapper.toString());
 		return responseWrapper;
@@ -58,7 +59,10 @@ public class SearchController {
 	@RequestMapping(value = "/libraray/{keyWords}")
 	public @ResponseBody ResponseWrapper searchLibraray(@PathVariable("keyWords") String keyWords){
 		logger.info(new Date().toString() + ": " + " try to search libraray with keyWords "+ keyWords);
-		ResponseWrapper responseWrapper = new ResponseWrapper(true,"",librarayCrudRepository.fuzzySearchByAreaAndAddress(keyWords));
+		Library[] libraries = librarayCrudRepository.findByAreaLike(keyWords);
+		Library[] libraries2 = librarayCrudRepository.findByAddressLike(keyWords);
+		Object[] objs = {libraries,libraries2};
+		ResponseWrapper responseWrapper = new ResponseWrapper(true,"",objs);
 		logger.info(new Date().toString() + ": " + "search library with keyWords "+ keyWords +" return "+ responseWrapper.toString());
 		return responseWrapper;
 	}
@@ -71,7 +75,7 @@ public class SearchController {
 	@RequestMapping(value = "/bookName/{keyWords}")
 	public @ResponseBody ResponseWrapper searchBookName(@PathVariable("keyWords") String keyWords){
 		logger.info(new Date().toString() + ": " + " try to search bookName with keyWords "+ keyWords);
-		ResponseWrapper responseWrapper = new ResponseWrapper(true,"",bookCategoryCrudRepository.fuzzySearchByName(keyWords));
+		ResponseWrapper responseWrapper = new ResponseWrapper(true,"",bookCategoryCrudRepository.findByNameLike(keyWords));
 		logger.info(new Date().toString() + ": " + "search bookName with keyWords "+ keyWords +" return "+ responseWrapper.toString());
 		return responseWrapper;
 	}
@@ -84,7 +88,7 @@ public class SearchController {
 	@RequestMapping(value = "/author/{keyWords}")
 	public @ResponseBody ResponseWrapper searchAuthor(@PathVariable("keyWords") String keyWords){
 		logger.info(new Date().toString() + ": " + " try to search author with keyWords "+ keyWords);
-		ResponseWrapper responseWrapper = new ResponseWrapper(true,"",bookCategoryCrudRepository.fuzzySearchByAuthor(keyWords));
+		ResponseWrapper responseWrapper = new ResponseWrapper(true,"",bookCategoryCrudRepository.findByAuthorLike(keyWords));
 		logger.info(new Date().toString() + ": " + "search author with keyWords "+ keyWords +" return "+ responseWrapper.toString());
 		return responseWrapper;
 	}
